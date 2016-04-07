@@ -32,6 +32,7 @@ import {
   getUniverse,
   getCharacter,
   getCharacters,
+  deleteCharacter,
 } from './database';
 
 // Next, let's define a node interface and type.
@@ -83,10 +84,8 @@ var characterType = new GraphQLObjectType({
   interfaces: [nodeInterface],
 });
 
-
 var {connectionType: characterConnection} =
   connectionDefinitions({name: 'Character', nodeType: characterType});
-
 
 //  Now let's associate these types with the root query type.
 // GraphQL's query 'query { characters }' should return all characters
@@ -101,8 +100,34 @@ var queryType = new GraphQLObjectType({
   }),
 });
 
+var DeleteCharacterMutation = mutationWithClientMutationId({
+  name: 'DeleteCharacter',
+  description: 'Delete a character with its id and return the universe.',
+  inputFields: {
+    id: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  outputFields: {
+    universe: {
+      type: universeType,
+      resolve: () => getUniverse(),
+    },
+  },
+  mutateAndGetPayload: ({id}) => {
+    var localCharacterId = fromGlobalId(id).id;
+    deleteCharacter(id);
+    return {};
+  },
+});
+
+var mutationType = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: () => ({
+    deleteCharacter: DeleteCharacterMutation,
+  }),
+});
+
 // Finally, we construct our schema
 export var Schema = new GraphQLSchema({
   query: queryType,
-//  mutation: mutationType
+  mutation: mutationType
 });

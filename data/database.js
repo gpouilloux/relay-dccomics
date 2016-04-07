@@ -12,14 +12,8 @@ universe.id = 1;
 
 var characters = [];
 (function() {
-  var character = new Character();
-  character.id = 1;
-  character.name = 'The Flash';
-  characters.push(character);
-  character = new Character();
-  character.id = 2;
-  character.name = 'Green Arrow';
-  characters.push(character);
+  characters.push(new Character(1, 'The Flash'));
+  characters.push(new Character(2, 'Green Arrow'));
 })();
 
 // Exported functions
@@ -28,7 +22,13 @@ export function getUniverse() {
 }
 
 export function getCharacter(id) {
-  return characters.find(c => c.id === id)
+  return characters.find(c => c.id === id);
 }
 
-export function getCharacters() { return characters; }
+export function getCharacters() {
+  return characters;
+}
+
+export function deleteCharacter(id) {
+  characters = characters.filter(c => c.id != id);
+}

@@ -1,6 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
 
+import DeleteCharacterMutation from '../mutations/DeleteCharacterMutation';
+
 const headerText = 'Relay - DC Comics Universe';
 
 class App extends React.Component {
@@ -32,6 +34,7 @@ export default Relay.createContainer(App, {
             }
           }
         },
+        ${DeleteCharacterMutation.getFragment('universe')},
       }
     `,
   },
