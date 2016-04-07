@@ -23,11 +23,13 @@ import {
   nodeDefinitions,
 } from 'graphql-relay';
 
+// Imports types
+import Universe from './types/universe';
+import Character from './types/character';
+
 // Imports exported function from database.js
 import {
-  Universe,
   getUniverse,
-  Character,
   getCharacter,
   getCharacters,
 } from './database';

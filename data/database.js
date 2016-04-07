@@ -3,11 +3,12 @@
  */
 
 // Model types
-export class Universe {}
-export class Character {}
+import Universe from './types/universe';
+import Character from './types/character';
 
 // Mock data
 var universe = new Universe();
+universe.id = 1;
 
 var characters = [];
 (function() {
