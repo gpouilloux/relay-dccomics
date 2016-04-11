@@ -29,6 +29,6 @@ export function getCharacters() {
   return characters;
 }
 
-export function deleteCharacter(id) {
-  characters = characters.filter(c => c.id != id);
+export function deleteCharacter(name) {
+  characters = characters.filter(c => c.name != name);
 }

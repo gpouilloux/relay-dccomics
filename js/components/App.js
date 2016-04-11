@@ -7,6 +7,19 @@ const headerText = 'Relay - DC Comics Universe';
 
 class App extends React.Component {
 
+  _deleteCharacterClick(name) {
+    var onSuccess = () => {
+      console.log('Mutation successful!');
+    };
+
+    var onFailure = (transaction) => {
+      var error = transaction.getError() || new Error('Mutation failed.');
+      console.error(error);
+    };
+
+    Relay.Store.commitUpdate(new DeleteCharacterMutation({ universe: this.props.universe, name: name }), {onSuccess, onFailure});
+  }
+
   render() {
     const {universe} = this.props;
     return (
@@ -14,7 +27,9 @@ class App extends React.Component {
         <h1>{headerText}</h1>
         <ul>
         {universe.characters.edges.map(({node}) => (
-            <li key={node.id}>{node.name}</li>
+            <li key={node.id}>{node.name}
+              <button onClick={this._deleteCharacterClick.bind(this, node.name)}>Delete</button>
+            </li>
           ))}
         </ul>
       </div>

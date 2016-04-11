@@ -97,6 +97,10 @@ var queryType = new GraphQLObjectType({
       type: universeType,
       resolve: () => getUniverse(),
     },
+    characters: {
+      type: new GraphQLList(characterType),
+      resolve: () => getCharacters(),
+    }
   }),
 });
 
@@ -104,7 +108,7 @@ var DeleteCharacterMutation = mutationWithClientMutationId({
   name: 'DeleteCharacter',
   description: 'Delete a character with its id and return the universe.',
   inputFields: {
-    id: { type: new GraphQLNonNull(GraphQLID) },
+    name: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     universe: {
@@ -112,9 +116,10 @@ var DeleteCharacterMutation = mutationWithClientMutationId({
       resolve: () => getUniverse(),
     },
   },
-  mutateAndGetPayload: ({id}) => {
-    var localCharacterId = fromGlobalId(id).id;
-    deleteCharacter(id);
+  mutateAndGetPayload: ({name}) => {
+    // FIXME use fromGlobalId(id).id to get the 'real' id of the entity
+    // use this id to delete the entity
+    deleteCharacter(name);
     return {};
   },
 });
